@@ -118,6 +118,8 @@ int main(int argc, char **argv) {
 
 	jobs[0] = JOB_init(buffer, fsize, argv[index]);
 
+	printf("%s", jobs[0]->data);
+
 	pre_sha256();
 	runJobs(jobs, 0);
 
