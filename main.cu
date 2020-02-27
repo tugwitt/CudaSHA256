@@ -58,7 +58,7 @@ void run_sha(unsigned char test[], char* string) {
 	sha256_cuda <<< numBlocks, blockSize >>> (job);
 
 	cudaDeviceSynchronize();
-	memcpy(string, hash_to_string(job->digest), 64);
+	memcpy(string, hash_to_string(job->digest), 65);
 	cudaDeviceReset();
 
 }
@@ -69,7 +69,7 @@ void run_sha(unsigned char test[], char* string) {
 int main() {
 
 	unsigned char test[] = "test\n";
-	char string[66];
+	char string[65];
 
 	run_sha(test, string);
 
