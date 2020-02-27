@@ -63,6 +63,15 @@ __global__ void sha256_cuda(JOB ** jobs, int n) {
 	}
 }
 
+
+__global__ void sha256_cuda_new(const BYTE data[], size_t len, BYTE hash[]) {
+	SHA256_CTX ctx;
+	sha256_init(&ctx);
+	sha256_update(&ctx, data, len);
+	sha256_final(&ctx, hash);
+}
+
+
 void pre_sha256() {
 	// compy symbols
 	checkCudaErrors(cudaMemcpyToSymbol(dev_k, host_k, sizeof(host_k), 0, cudaMemcpyHostToDevice));
