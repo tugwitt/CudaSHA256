@@ -109,28 +109,17 @@ int main(int argc, char **argv) {
 	unsigned long temp;
 	BYTE * buffer = 0;
 	char index;
+	unsigned long fsize = 5;
 	JOB ** jobs;
 
-	n = argc - optind;
-	if (n > 0){
+	checkCudaErrors(cudaMallocManaged(&jobs, 1 * sizeof(JOB *)));
+	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
+	memcpy(buffer, "test\n", fsize);  
 
-		checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
+	jobs[0] = JOB_init(buffer, fsize, argv[index]);
 
-		// iterate over file list - non optional arguments
-		for (i = 0, index = optind; index < argc; index++, i++){
-
-			unsigned long fsize = 5;
-
-			checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
-			//fread(buffer, fsize, 1, f);
-			memcpy(buffer, "test\n", fsize);  
-
-			jobs[i] = JOB_init(buffer, fsize, argv[index]);
-		}
-
-		pre_sha256();
-		runJobs(jobs, n);
-	}
+	pre_sha256();
+	runJobs(jobs, 0);
 
 	cudaDeviceSynchronize();
 	print_jobs(jobs, n);
