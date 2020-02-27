@@ -120,7 +120,7 @@ int main(int argc, char **argv) {
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	memcpy(buffer, "test\n", fsize);  
 
-	jobs[i] = JOB_init(buff, fsize, argv[index]);
+	jobs[i] = JOB_init(buffer, fsize, argv[index]);
 
 	pre_sha256();
 	runJobs(jobs, n);
