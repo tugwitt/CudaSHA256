@@ -58,9 +58,9 @@ __global__ void sha256_cuda(JOB ** jobs, int n) {
 
 
 	if (i < n){
+		printf("%d", i);
 		SHA256_CTX ctx;
 		sha256_init(&ctx);
-		printf("%s", jobs[i]->data);
 		sha256_update(&ctx, jobs[i]->data, jobs[i]->size);
 		sha256_final(&ctx, jobs[i]->digest);
 	}
