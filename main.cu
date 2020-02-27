@@ -140,14 +140,25 @@ int main(int argc, char **argv) {
 	unsigned long len = 5;
 	BYTE digest[64];
 
-	cudaDeviceSynchronize();
-	int blockSize = 4;
-	int numBlocks = (n + blockSize - 1) / blockSize;
 	sha256_cuda_new <<< numBlocks, blockSize >>> (data, len, digest);
+
+	n = argc - optind;
+	if (n > 0){
+
+		checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
+
+		// iterate over file list - non optional arguments
+		for (i = 0, index = optind; index < argc; index++, i++){
+			buff = get_file_data(argv[index], &temp);
+			jobs[i] = JOB_init(buff, temp, argv[index]);
+		}
+
+		pre_sha256();
+		runJobs(jobs, n);
+	}
+
+	cudaDeviceSynchronize();
+	print_jobs(jobs, n);
 	cudaDeviceReset();
-
-
-	printf("%s", digest);
-
 	return 0;
 }
