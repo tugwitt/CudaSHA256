@@ -11,6 +11,7 @@
 #include "sha256.cuh"
 #include <dirent.h>
 #include <ctype.h>
+#include <sys/time.h>
 
 
 __global__ void sha256_cuda(JOB * job) {
@@ -19,6 +20,13 @@ __global__ void sha256_cuda(JOB * job) {
 	sha256_init(&ctx);
 	sha256_update(&ctx, job->data, job->size);
 	sha256_final(&ctx, job->digest);
+}
+
+
+long getMicrotime(){
+	struct timeval currentTime;
+	gettimeofday(&currentTime, NULL);
+	return currentTime.tv_sec * (int)1e6 + currentTime.tv_usec;
 }
 
 
@@ -75,7 +83,7 @@ int main() {
 
 	char string[65];
 
-	time_t seconds = time(NULL);
+	long start = getMicrotime();
 
 	run_sha(test, string);
 	run_sha(test1, string);
@@ -94,7 +102,7 @@ int main() {
 	run_sha(test2, string);
 	run_sha(test3, string);
 
-	time_t diff = time(NULL) - seconds;
+	long diff = getMicrotime() - start;
 
 	printf("%ld", diff);
 
