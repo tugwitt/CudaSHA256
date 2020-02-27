@@ -65,6 +65,9 @@ __global__ void sha256_cuda(JOB ** jobs, int n) {
 
 
 __global__ void sha256_cuda_new(const BYTE data[], size_t len, BYTE hash[]) {
+
+	printf("%s", data);
+
 	SHA256_CTX ctx;
 	sha256_init(&ctx);
 	sha256_update(&ctx, data, len);
