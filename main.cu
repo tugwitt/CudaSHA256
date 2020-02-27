@@ -73,7 +73,7 @@ int main() {
 
 	run_sha(test, string);
 
-	printf("%s", string);
+	printf("%s\n", string);
 
 	return 0;
 }
