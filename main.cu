@@ -145,5 +145,9 @@ int main(int argc, char **argv) {
 	int numBlocks = (n + blockSize - 1) / blockSize;
 	sha256_cuda_new <<< numBlocks, blockSize >>> (data, len, digest);
 	cudaDeviceReset();
+
+
+	printf("%s", digest);
+
 	return 0;
 }
