@@ -40,11 +40,12 @@ JOB * JOB_init(BYTE * data, long size) {
 	return j;
 }
 
-char * run_sha(unsigned char test[]) {
+void run_sha(unsigned char test[]) {
 
 	JOB * job;
 	BYTE * buffer = 0;
 	unsigned long fsize = strlen((char*)test);
+	char * string[64];
 
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	
@@ -58,7 +59,7 @@ char * run_sha(unsigned char test[]) {
 	sha256_cuda <<< numBlocks, blockSize >>> (job);
 
 	cudaDeviceSynchronize();
-	char digest[] = hash_to_string(job->digest);
+	memcpy(string, hash_to_string(job->digest), 64);
 	cudaDeviceReset();
 
 	return digest;
@@ -72,7 +73,7 @@ int main() {
 
 	char * digest[64];
 
-	digest = run_sha("test\n");
+	run_sha("test\n");
 
 	return 0;
 }
