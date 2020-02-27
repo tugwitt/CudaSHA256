@@ -140,25 +140,8 @@ int main(int argc, char **argv) {
 	unsigned long len = 5;
 	BYTE digest[64];
 
-	sha256_cuda_new(data, len, digest);
-
-	n = argc - optind;
-	if (n > 0){
-
-		checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
-
-		// iterate over file list - non optional arguments
-		for (i = 0, index = optind; index < argc; index++, i++){
-			buff = get_file_data(argv[index], &temp);
-			jobs[i] = JOB_init(buff, temp, argv[index]);
-		}
-
-		pre_sha256();
-		runJobs(jobs, n);
-	}
-
 	cudaDeviceSynchronize();
-	print_jobs(jobs, n);
+	sha256_cuda_new(data, len, digest);
 	cudaDeviceReset();
 	return 0;
 }
