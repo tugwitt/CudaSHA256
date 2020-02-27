@@ -104,19 +104,15 @@ JOB * JOB_init(BYTE * data, long size, char * fname) {
 	return j;
 }
 
-int main(int argc, char **argv) {
+int main() {
 	int i = 0, n = 0;
-	unsigned long temp;
 	BYTE * buffer = 0;
-	char index;
 	JOB ** jobs;
+	unsigned long fsize = 5;
 
 	n = 1;
 
 	checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
-
-	unsigned long fsize = 5;
-
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	memcpy(buffer, "test\n", fsize);  
 
