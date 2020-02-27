@@ -14,12 +14,23 @@
 #include <sys/time.h>
 
 
-__global__ void sha256_cuda(JOB * job) {
+__global__ void sha256_cuda_new(JOB * job) {
 
 	SHA256_CTX ctx;
 	sha256_init(&ctx);
 	sha256_update(&ctx, job->data, job->size);
 	sha256_final(&ctx, job->digest);
+}
+
+__global__ void sha256_cuda(JOB ** jobs, int n) {
+	int i = blockIdx.x * blockDim.x + threadIdx.x;
+	// perform sha256 calculation here
+	if (i < n){
+		SHA256_CTX ctx;
+		sha256_init(&ctx);
+		sha256_update(&ctx, jobs[i]->data, jobs[i]->size);
+		sha256_final(&ctx, jobs[i]->digest);
+	}
 }
 
 
@@ -48,24 +59,28 @@ JOB * JOB_init(BYTE * data, long size) {
 	return j;
 }
 
-void run_sha(unsigned char test[], char* string) {
+void runJobs(JOB ** jobs, int n){
+	int blockSize = 4;
+	int numBlocks = (n + blockSize - 1) / blockSize;
+	sha256_cuda <<< numBlocks, blockSize >>> (jobs, n);
+}
 
-	JOB * job;
+
+void run_sha(unsigned char test[], int n, char* string) {
+
+	JOB ** jobs;
 	BYTE * buffer = 0;
 	unsigned long fsize = strlen((char*)test);
 
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
+	checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
+	memcpy(buffer, test, fsize); 
+
+	for (i = 0; index < n;i++){
+		jobs[i] = JOB_init(buffer, fsize);
+	}
 	
-	memcpy(buffer, test, fsize);  
-	job = JOB_init(buffer, fsize);
-
-	pre_sha256();
-
-	int blockSize = 4;
-	int numBlocks = (1 + blockSize - 1) / blockSize;
-	sha256_cuda <<< numBlocks, blockSize >>> (job);
-
-	memcpy(string, hash_to_string(job->digest), 65);
+	runJobs(jobs, n);
 
 }
 
@@ -82,8 +97,8 @@ int main() {
 
 	long start = getMicrotime();
 
-	for (int i=0;i<1000;i++) {
-		run_sha(test, string);
+	for (int i=0;i<100;i++) {
+		run_sha(test, 10, string);
 	}
 
 	long diff = getMicrotime() - start;
