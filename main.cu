@@ -122,7 +122,6 @@ BYTE * get_file_data(char * fname, unsigned long * size) {
 
 int main(int argc, char **argv) {
 	int i = 0, n = 0;
-	size_t len;
 	unsigned long temp;
 	BYTE * buff;
 	char index;
