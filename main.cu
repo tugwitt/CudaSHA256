@@ -65,9 +65,7 @@ void run_sha(unsigned char test[], char* string) {
 	int numBlocks = (1 + blockSize - 1) / blockSize;
 	sha256_cuda <<< numBlocks, blockSize >>> (job);
 
-	cudaDeviceSynchronize();
 	memcpy(string, hash_to_string(job->digest), 65);
-	cudaDeviceReset();
 
 }
 
@@ -89,7 +87,6 @@ int main() {
 	run_sha(test1, string);
 	run_sha(test2, string);
 	run_sha(test3, string);
-
 
 	long diff = getMicrotime() - start;
 
