@@ -151,7 +151,7 @@ int main(int argc, char **argv) {
 		for (i = 0, index = optind; index < argc; index++, i++){
 			buff = get_file_data(argv[index], &temp);
 			printf("%s", buff);
-			jobs[i] = JOB_init(buff, temp, argv[index]);
+			jobs[i] = JOB_init(buff, 5, argv[index]);
 		}
 
 		pre_sha256();
