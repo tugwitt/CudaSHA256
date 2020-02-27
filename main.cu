@@ -98,7 +98,7 @@ int main() {
 	long start = getMicrotime();
 
 	for (int i=0;i<100;i++) {
-		run_sha(test, 10, string);
+		run_sha(test, 100, string);
 	}
 
 	long diff = getMicrotime() - start;
