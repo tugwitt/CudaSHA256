@@ -59,8 +59,6 @@ void run_sha(unsigned char test[], char* string) {
 	memcpy(buffer, test, fsize);  
 	job = JOB_init(buffer, fsize);
 
-	pre_sha256();
-
 	int blockSize = 4;
 	int numBlocks = (1 + blockSize - 1) / blockSize;
 	sha256_cuda <<< numBlocks, blockSize >>> (job);
