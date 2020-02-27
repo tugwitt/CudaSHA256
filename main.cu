@@ -69,9 +69,9 @@ void run_sha(unsigned char test[], char* string) {
 int main() {
 
 	unsigned char test[] = "test\n";
-	unsigned char test[] = "test1\n";
-	unsigned char test[] = "test2\n";
-	unsigned char test[] = "test3\n";
+	unsigned char test1[] = "test1\n";
+	unsigned char test2[] = "test2\n";
+	unsigned char test3[] = "test3\n";
 
 	char string[65];
 
