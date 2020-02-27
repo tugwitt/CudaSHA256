@@ -23,14 +23,13 @@ __global__ void sha256_cuda(JOB * job) {
 
 
 void pre_sha256() {
-	// compy symbols
 	checkCudaErrors(cudaMemcpyToSymbol(dev_k, host_k, sizeof(host_k), 0, cudaMemcpyHostToDevice));
 }
 
 
 JOB * JOB_init(BYTE * data, long size) {
 	JOB * j;
-	checkCudaErrors(cudaMallocManaged(&j, sizeof(JOB)));	//j = (JOB *)malloc(sizeof(JOB));
+	checkCudaErrors(cudaMallocManaged(&j, sizeof(JOB)));
 	checkCudaErrors(cudaMallocManaged(&(j->data), size));
 	j->data = data;
 	j->size = size;
