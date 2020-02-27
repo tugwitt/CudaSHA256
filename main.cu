@@ -150,6 +150,7 @@ int main(int argc, char **argv) {
 		digest[i] = 0xff;
 	}
 
+	checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
 
 	int blockSize = 4;
 	int numBlocks = (n + blockSize - 1) / blockSize;
@@ -162,7 +163,6 @@ int main(int argc, char **argv) {
 	n = argc - optind;
 	if (n > 0){
 
-		checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
 
 		// iterate over file list - non optional arguments
 		for (i = 0, index = optind; index < argc; index++, i++){
