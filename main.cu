@@ -119,18 +119,6 @@ BYTE * get_file_data(char * fname, unsigned long * size) {
 	return buffer;
 }
 
-void print_usage(){
-	printf("Usage: CudaSHA256 [OPTION] [FILE]...\n");
-	printf("Calculate sha256 hash of given FILEs\n\n");
-	printf("OPTIONS:\n");
-	printf("\t-f FILE1 \tRead a list of files (separeted by \\n) from FILE1, output hash for each file\n");
-	printf("\t-h       \tPrint this help\n");
-	printf("\nIf no OPTIONS are supplied, then program reads the content of FILEs and outputs hash for each FILEs \n");
-	printf("\nOutput format:\n");
-	printf("Hash following by two spaces following by file name (same as sha256sum).\n");
-	printf("\nNotes:\n");
-	printf("Calculations are performed on GPU, each seperate file is hashed in its own thread\n");
-}
 
 int main(int argc, char **argv) {
 	int i = 0, n = 0;
@@ -142,61 +130,19 @@ int main(int argc, char **argv) {
 	ssize_t read;
 	JOB ** jobs;
 
-	// parse input
-	while ((option = getopt(argc, argv,"hf:")) != -1)
-		switch (option) {
-			case 'h' :
-				print_usage();
-				break;
-			case 'f' :
-				a_file = optarg;
-				break;
-			default:
-				break;
-		}
+	n = argc - optind;
+	if (n > 0){
 
-
-	if (a_file) {
-		FILE * f = 0;
-		f = fopen(a_file, "r");
-		if (!f){
-			fprintf(stderr, "Unable to open %s\n", a_file);
-			return 0;
-		}
-
-		for (n = 0; getline(&line, &len, f) != -1; n++){}
 		checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
-		fseek(f, 0, SEEK_SET);
 
-		n = 0;
-		read = getline(&line, &len, f);
-		while (read != -1) {
-			//printf("%s\n", line);
-			read = getline(&line, &len, f);
-			line = trim(line);
-			buff = get_file_data(line, &temp);
-			jobs[n++] = JOB_init(buff, temp, line);
+		// iterate over file list - non optional arguments
+		for (i = 0, index = optind; index < argc; index++, i++){
+			buff = get_file_data(argv[index], &temp);
+			jobs[i] = JOB_init(buff, temp, argv[index]);
 		}
 
 		pre_sha256();
 		runJobs(jobs, n);
-
-	} else {
-		// get number of arguments = files = jobs
-		n = argc - optind;
-		if (n > 0){
-
-			checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
-
-			// iterate over file list - non optional arguments
-			for (i = 0, index = optind; index < argc; index++, i++){
-				buff = get_file_data(argv[index], &temp);
-				jobs[i] = JOB_init(buff, temp, argv[index]);
-			}
-
-			pre_sha256();
-			runJobs(jobs, n);
-		}
 	}
 
 	cudaDeviceSynchronize();
