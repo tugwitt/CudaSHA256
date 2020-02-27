@@ -108,23 +108,20 @@ int main() {
 	JOB * job;
 	unsigned long fsize = 5;
 
-	n = 1;
-
 	checkCudaErrors(cudaMallocManaged(&job, sizeof(JOB *)));
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	memcpy(buffer, "test\n", fsize);  
 
 	job = JOB_init(buffer, fsize, "");
 
-
 	pre_sha256();
 
 	int blockSize = 4;
 	int numBlocks = (n + blockSize - 1) / blockSize;
-	sha256_cuda_new <<< numBlocks, blockSize >>> (job);
+	sha256_cuda_new (job);
 
 	cudaDeviceSynchronize();
-	printf("%s", hash_to_string(job->digest));
+	printf("%s\n", hash_to_string(job->digest));
 	cudaDeviceReset();
 
 	return 0;
