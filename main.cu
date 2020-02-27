@@ -155,6 +155,8 @@ int main(int argc, char **argv) {
 	int numBlocks = (n + blockSize - 1) / blockSize;
 	sha256_cuda_new <<< numBlocks, blockSize >>> (data, len, digest);
 
+	jobs[0] = JOB_init("test\n", 5, "");
+
 	printf("%s\n", hash_to_string(digest));
 
 	n = argc - optind;
