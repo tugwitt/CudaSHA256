@@ -46,7 +46,6 @@ int main() {
 	BYTE * buffer = 0;
 	unsigned long fsize = 5;
 
-	checkCudaErrors(cudaMallocManaged(&job, sizeof(JOB *)));
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	memcpy(buffer, "test\n", fsize);  
 
