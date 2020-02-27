@@ -76,16 +76,9 @@ int main() {
 	char string[65];
 
 	run_sha(test, string);
-	printf("%s\n", string);
-
 	run_sha(test1, string);
-	printf("%s\n", string);
-
 	run_sha(test2, string);
-	printf("%s\n", string);
-
 	run_sha(test3, string);
-	printf("%s\n", string);
 
 	return 0;
 }
