@@ -62,16 +62,12 @@ void run_sha(unsigned char test[]) {
 	memcpy(string, hash_to_string(job->digest), 64);
 	cudaDeviceReset();
 
-	return digest;
-
 }
 
 
 
 
 int main() {
-
-	char * digest[64];
 
 	run_sha("test\n");
 
