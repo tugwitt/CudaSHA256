@@ -76,7 +76,7 @@ void run_sha(unsigned char test[], int n, char* string) {
 	checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
 	memcpy(buffer, test, fsize); 
 
-	for (int i = 0; index < n;i++){
+	for (int i = 0; i < n;i++){
 		jobs[i] = JOB_init(buffer, fsize);
 	}
 	
