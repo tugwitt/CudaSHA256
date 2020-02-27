@@ -37,8 +37,8 @@ void pre_sha256() {
 
 JOB * JOB_init(BYTE * data, long size) {
 	JOB * j;
-	checkCudaErrors(cudaMallocManaged(&j, sizeof(JOB)));
-	checkCudaErrors(cudaMallocManaged(&(j->data), size));
+	checkCudaErrors(cudaMalloc(&j, sizeof(JOB)));
+	checkCudaErrors(cudaMalloc(&(j->data), size));
 	j->data = data;
 	j->size = size;
 	for (int i = 0; i < 64; i++)
@@ -54,7 +54,7 @@ void run_sha(unsigned char test[], char* string) {
 	BYTE * buffer = 0;
 	unsigned long fsize = strlen((char*)test);
 
-	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
+	checkCudaErrors(cudaMalloc(&buffer, (fsize+1)*sizeof(char)));
 	
 	memcpy(buffer, test, fsize);  
 	job = JOB_init(buffer, fsize);
