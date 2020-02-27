@@ -124,10 +124,8 @@ int main(int argc, char **argv) {
 	int i = 0, n = 0;
 	size_t len;
 	unsigned long temp;
-	char * a_file = 0, * line = 0;
 	BYTE * buff;
-	char option, index;
-	ssize_t read;
+	char index;
 	JOB ** jobs;
 
 	n = argc - optind;
