@@ -97,8 +97,10 @@ int main() {
 
 	long start = getMicrotime();
 
+	pre_sha256();
+
 	for (int i=0;i<1000;i++) {
-		run_sha(test, 1000, string);
+		run_sha(test, 100, string);
 	}
 
 	long diff = getMicrotime() - start;
