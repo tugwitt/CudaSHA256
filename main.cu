@@ -40,12 +40,11 @@ JOB * JOB_init(BYTE * data, long size) {
 	return j;
 }
 
-void run_sha(unsigned char test[]) {
+void run_sha(unsigned char test[], char* string) {
 
 	JOB * job;
 	BYTE * buffer = 0;
 	unsigned long fsize = strlen((char*)test);
-	char * string[64];
 
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	
@@ -70,8 +69,9 @@ void run_sha(unsigned char test[]) {
 int main() {
 
 	unsigned char test[] = "test\n";
+	char * string[64];
 
-	run_sha(test);
+	run_sha(test, string);
 
 	return 0;
 }
