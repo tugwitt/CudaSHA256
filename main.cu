@@ -117,6 +117,7 @@ int main() {
 	memcpy(buffer, "test\n", fsize);  
 
 	JOB * job = JOB_init(buffer, fsize, "");
+	jobs[n] = job;
 
 	pre_sha256();
 	runJobs(jobs, n);
