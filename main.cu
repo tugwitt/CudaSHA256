@@ -52,18 +52,6 @@ char * trim(char *str){
     return str;
 }
 
-__global__ void sha256_cuda(JOB ** jobs, int n) {
-	int i = blockIdx.x * blockDim.x + threadIdx.x;
-	// perform sha256 calculation here
-	if (i < n){
-		SHA256_CTX ctx;
-		sha256_init(&ctx);
-		sha256_update(&ctx, jobs[i]->data, jobs[i]->size);
-		sha256_final(&ctx, jobs[i]->digest);
-	}
-}
-
-
 __global__ void sha256_cuda_new(const BYTE data[], size_t len, BYTE hash[]) {
 	SHA256_CTX ctx;
 	sha256_init(&ctx);
