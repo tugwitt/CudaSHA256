@@ -136,6 +136,12 @@ int main(int argc, char **argv) {
 	char index;
 	JOB ** jobs;
 
+	const BYTE data[] = "test\n";
+	unsigned long len = 5;
+	BYTE digest[64];
+
+	sha256_cuda_new(data, len, digest);
+
 	n = argc - optind;
 	if (n > 0){
 
