@@ -44,7 +44,7 @@ char * run_sha(unsigned char test[]) {
 
 	JOB * job;
 	BYTE * buffer = 0;
-	unsigned char digest[];
+	unsigned char digest[64];
 	unsigned long fsize = strlen((char*)test);
 
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
