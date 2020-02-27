@@ -141,28 +141,10 @@ int main(int argc, char **argv) {
 	char index;
 	JOB ** jobs;
 
-	const BYTE data[] = "test\n";
-	unsigned long len = 5;
-	BYTE digest[64];
-
-	for (int i = 0; i < 64; i++)
-	{
-		digest[i] = 0xff;
-	}
-
-	checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
-
-	int blockSize = 4;
-	int numBlocks = (n + blockSize - 1) / blockSize;
-	sha256_cuda_new <<< numBlocks, blockSize >>> (data, len, digest);
-
-	jobs[0] = JOB_init((BYTE*)"test\n", 5, "");
-
-	printf("%s\n", hash_to_string(digest));
-
 	n = argc - optind;
 	if (n > 0){
 
+		checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
 
 		// iterate over file list - non optional arguments
 		for (i = 0, index = optind; index < argc; index++, i++){
