@@ -89,18 +89,7 @@ int main() {
 	run_sha(test1, string);
 	run_sha(test2, string);
 	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
+
 
 	long diff = getMicrotime() - start;
 
