@@ -150,7 +150,7 @@ int main(int argc, char **argv) {
 	int numBlocks = (n + blockSize - 1) / blockSize;
 	sha256_cuda_new <<< numBlocks, blockSize >>> (data, len, digest);
 
-	printf("%s", digest);
+	printf("%s", hash_to_string(digest));
 
 	n = argc - optind;
 	if (n > 0){
