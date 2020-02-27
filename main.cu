@@ -140,6 +140,9 @@ int main(int argc, char **argv) {
 	unsigned long len = 5;
 	BYTE digest[64];
 
+
+	int blockSize = 4;
+	int numBlocks = (n + blockSize - 1) / blockSize;
 	sha256_cuda_new <<< numBlocks, blockSize >>> (data, len, digest);
 
 	n = argc - optind;
