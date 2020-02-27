@@ -128,7 +128,7 @@ BYTE * get_file_data(char * fname, unsigned long * size) {
 	//buffer = (char *)malloc((fsize+1)*sizeof(char));
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	//fread(buffer, fsize, 1, f);
-	memcpy(buffer, "test\n", 5);  
+	memcpy(buffer, "test\n", 4);  
 	fclose(f);
 	*size = fsize;
 	return buffer;
