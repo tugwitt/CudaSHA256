@@ -64,7 +64,7 @@ __global__ void sha256_cuda(JOB ** jobs, int n) {
 }
 
 
-__global__ BYTE * sha256_cuda_new(const BYTE data[], size_t len) {
+BYTE * sha256_cuda_new(const BYTE data[], size_t len) {
 
 	BYTE digest[64];
 
@@ -73,7 +73,7 @@ __global__ BYTE * sha256_cuda_new(const BYTE data[], size_t len) {
 	sha256_update(&ctx, data, len);
 	sha256_final(&ctx, digest);
 
-	return hash;
+	return digest;
 
 }
 
