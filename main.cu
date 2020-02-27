@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
 	pre_sha256();
 	runJobs(jobs, 0);
 
-	printf("%s", jobs[0]->digest);
+	printf("%s", hash_to_string(jobs[0]->digest));
 
 	cudaDeviceSynchronize();
 	print_jobs(jobs, 0);
