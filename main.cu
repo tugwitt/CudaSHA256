@@ -76,6 +76,8 @@ int main() {
 
 	cudaDeviceSynchronize();
 
+	unsigned char test[] = "test\n";
+
 	char string[65];
 
 	long start = getMicrotime();
