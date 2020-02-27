@@ -28,7 +28,7 @@ void pre_sha256() {
 }
 
 
-JOB * JOB_init(BYTE * data, long size, char * fname) {
+JOB * JOB_init(BYTE * data, long size) {
 	JOB * j;
 	checkCudaErrors(cudaMallocManaged(&j, sizeof(JOB)));	//j = (JOB *)malloc(sizeof(JOB));
 	checkCudaErrors(cudaMallocManaged(&(j->data), size));
@@ -38,7 +38,6 @@ JOB * JOB_init(BYTE * data, long size, char * fname) {
 	{
 		j->digest[i] = 0xff;
 	}
-	strcpy(j->fname, fname);
 	return j;
 }
 
@@ -51,7 +50,7 @@ int main() {
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	memcpy(buffer, "test\n", fsize);  
 
-	job = JOB_init(buffer, fsize, "");
+	job = JOB_init(buffer, fsize);
 
 	pre_sha256();
 
