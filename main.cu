@@ -74,6 +74,8 @@ void run_sha(unsigned char test[], char* string) {
 
 int main() {
 
+	cudaDeviceSynchronize();
+
 	unsigned char test[] = "test\n";
 	unsigned char test1[] = "test1\n";
 	unsigned char test2[] = "test2\n";
@@ -91,6 +93,9 @@ int main() {
 	long diff = getMicrotime() - start;
 
 	printf("%ld", diff);
+
+	cudaDeviceReset();
+
 
 	return 0;
 }
