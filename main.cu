@@ -45,7 +45,6 @@ void run_sha(unsigned char test[]) {
 	JOB * job;
 	BYTE * buffer = 0;
 	unsigned long fsize = strlen((char*)test);
-	char * string[64];
 
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	
@@ -59,7 +58,7 @@ void run_sha(unsigned char test[]) {
 	sha256_cuda <<< numBlocks, blockSize >>> (job);
 
 	cudaDeviceSynchronize();
-	memcpy(string, hash_to_string(job->digest), 64);
+	printf("%s\n", hash_to_string(job->digest));
 	cudaDeviceReset();
 
 }
@@ -69,7 +68,9 @@ void run_sha(unsigned char test[]) {
 
 int main() {
 
-	run_sha("test\n");
+	unsigned char test[] = "test\n";
+
+	run_sha(test);
 
 	return 0;
 }
