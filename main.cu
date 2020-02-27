@@ -73,7 +73,7 @@ __global__ void sha256_cuda_new(const BYTE data[], size_t len, BYTE hash[]) {
 
 	SHA256_CTX ctx;
 	sha256_init(&ctx);
-	sha256_update(&ctx, "test\n", len);
+	sha256_update(&ctx, "test\n", 5);
 	sha256_final(&ctx, hash);
 }
 
