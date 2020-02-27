@@ -103,7 +103,6 @@ JOB * JOB_init(BYTE * data, long size, char * fname) {
 }
 
 int main() {
-	int i = 0, n = 0;
 	BYTE * buffer = 0;
 	JOB * job;
 	unsigned long fsize = 5;
