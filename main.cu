@@ -69,7 +69,7 @@ void run_sha(unsigned char test[], char* string) {
 int main() {
 
 	unsigned char test[] = "test\n";
-	char string[64];
+	char string[66];
 
 	run_sha(test, string);
 
