@@ -43,8 +43,8 @@ JOB * JOB_init(BYTE * data, long size) {
 int main() {
 	JOB * job;
 	BYTE * buffer = 0;
-	unsigned long fsize = 5;
 	unsigned char test[] = "test\n";
+	unsigned long fsize = strlen(test);
 
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	memcpy(buffer, test, fsize);  
