@@ -66,14 +66,12 @@ __global__ void sha256_cuda(JOB ** jobs, int n) {
 }
 
 
-__global__ void sha256_cuda_new(const BYTE data[], size_t len, BYTE hash[]) {
-
-	printf("%s", data);
+__global__ void sha256_cuda_new(JOB * job) {
 
 	SHA256_CTX ctx;
 	sha256_init(&ctx);
-	sha256_update(&ctx, data, 5);
-	sha256_final(&ctx, hash);
+	sha256_update(&ctx, job->data, job->size);
+	sha256_final(&ctx, job->digest);
 }
 
 
@@ -117,6 +115,17 @@ int main() {
 	memcpy(buffer, "test\n", fsize);  
 
 	job = JOB_init(buffer, fsize, "");
+
+
+	pre_sha256();
+
+	int blockSize = 4;
+	int numBlocks = (n + blockSize - 1) / blockSize;
+	sha256_cuda_new <<< numBlocks, blockSize >>> (job);
+
+	cudaDeviceSynchronize();
+	printf("%s", hash_to_string(job->digest));
+	cudaDeviceReset();
 
 	return 0;
 }
