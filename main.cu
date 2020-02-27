@@ -109,22 +109,24 @@ int main(int argc, char **argv) {
 	unsigned long temp;
 	BYTE * buffer = 0;
 	char index;
-	unsigned long fsize = 5;
 	JOB ** jobs;
 
-	checkCudaErrors(cudaMallocManaged(&jobs, 1 * sizeof(JOB *)));
+	n = 1;
+
+	checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
+
+	unsigned long fsize = 5;
+
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	memcpy(buffer, "test\n", fsize);  
 
-	jobs[0] = JOB_init(buffer, fsize, argv[index]);
+	jobs[i] = JOB_init(buff, fsize, argv[index]);
 
 	pre_sha256();
-	runJobs(jobs, 0);
-
-	printf("%s", hash_to_string(jobs[0]->digest));
+	runJobs(jobs, n);
 
 	cudaDeviceSynchronize();
-	print_jobs(jobs, 0);
+	print_jobs(jobs, n);
 	cudaDeviceReset();
 	return 0;
 }
