@@ -75,10 +75,16 @@ int main() {
 
 	char string[65];
 
+	time_t seconds = time(NULL);
+
 	run_sha(test, string);
 	run_sha(test1, string);
 	run_sha(test2, string);
 	run_sha(test3, string);
+
+	time_t diff = time(NULL) - seconds;
+
+	printf("%ld", diff);
 
 	return 0;
 }
