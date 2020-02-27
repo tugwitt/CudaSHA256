@@ -57,7 +57,7 @@ int main() {
 
 	int blockSize = 4;
 	int numBlocks = (1 + blockSize - 1) / blockSize;
-	sha256_cuda_new <<< numBlocks, blockSize >>> (job);
+	sha256_cuda <<< numBlocks, blockSize >>> (job);
 
 	cudaDeviceSynchronize();
 	printf("%s\n", hash_to_string(job->digest));
