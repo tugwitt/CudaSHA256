@@ -107,23 +107,16 @@ JOB * JOB_init(BYTE * data, long size, char * fname) {
 int main() {
 	int i = 0, n = 0;
 	BYTE * buffer = 0;
-	JOB ** jobs;
+	JOB * job;
 	unsigned long fsize = 5;
 
 	n = 1;
 
-	checkCudaErrors(cudaMallocManaged(&jobs, n * sizeof(JOB *)));
+	checkCudaErrors(cudaMallocManaged(&job, sizeof(JOB *)));
 	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
 	memcpy(buffer, "test\n", fsize);  
 
-	JOB * job = JOB_init(buffer, fsize, "");
-	jobs[n] = job;
+	job = JOB_init(buffer, fsize, "");
 
-	pre_sha256();
-	runJobs(jobs, n);
-
-	cudaDeviceSynchronize();
-	print_jobs(jobs, n);
-	cudaDeviceReset();
 	return 0;
 }
