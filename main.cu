@@ -69,10 +69,22 @@ void run_sha(unsigned char test[], char* string) {
 int main() {
 
 	unsigned char test[] = "test\n";
+	unsigned char test[] = "test1\n";
+	unsigned char test[] = "test2\n";
+	unsigned char test[] = "test3\n";
+
 	char string[65];
 
 	run_sha(test, string);
+	printf("%s\n", string);
 
+	run_sha(test1, string);
+	printf("%s\n", string);
+
+	run_sha(test2, string);
+	printf("%s\n", string);
+
+	run_sha(test3, string);
 	printf("%s\n", string);
 
 	return 0;
