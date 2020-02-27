@@ -64,7 +64,7 @@ __global__ void sha256_cuda(JOB ** jobs, int n) {
 }
 
 
-BYTE * sha256_cuda_new(const BYTE data[], size_t len) {
+BYTE sha256_cuda_new(const BYTE data[], size_t len) {
 
 	BYTE digest[64];
 
