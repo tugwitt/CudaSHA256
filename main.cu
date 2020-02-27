@@ -104,41 +104,10 @@ JOB * JOB_init(BYTE * data, long size, char * fname) {
 	return j;
 }
 
-
-BYTE * get_file_data(char * fname, unsigned long * size) {
-	FILE * f = 0;
-	BYTE * buffer = 0;
-	unsigned long fsize = 0;
-
-	f = fopen(fname, "rb");
-	if (!f){
-		fprintf(stderr, "get_file_data Unable to open '%s'\n", fname);
-		return 0;
-	}
-	fflush(f);
-
-	if (fseek(f, 0, SEEK_END)){
-		fprintf(stderr, "Unable to fseek %s\n", fname);
-		return 0;
-	}
-	fflush(f);
-	fsize = ftell(f);
-	rewind(f);
-
-	//buffer = (char *)malloc((fsize+1)*sizeof(char));
-	checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
-	//fread(buffer, fsize, 1, f);
-	memcpy(buffer, "testing\n", 8);  
-	fclose(f);
-	*size = fsize;
-	return buffer;
-}
-
-
 int main(int argc, char **argv) {
 	int i = 0, n = 0;
 	unsigned long temp;
-	BYTE * buff;
+	BYTE * buffer = 0;
 	char index;
 	JOB ** jobs;
 
@@ -149,9 +118,14 @@ int main(int argc, char **argv) {
 
 		// iterate over file list - non optional arguments
 		for (i = 0, index = optind; index < argc; index++, i++){
-			buff = get_file_data(argv[index], &temp);
-			printf("%s", buff);
-			jobs[i] = JOB_init(buff, 5, argv[index]);
+
+			unsigned long fsize = 5;
+
+			checkCudaErrors(cudaMallocManaged(&buffer, (fsize+1)*sizeof(char)));
+			//fread(buffer, fsize, 1, f);
+			memcpy(buffer, "test\n", fsize);  
+
+			jobs[i] = JOB_init(buffer, fsize, argv[index]);
 		}
 
 		pre_sha256();
