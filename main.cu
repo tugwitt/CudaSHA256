@@ -64,11 +64,17 @@ __global__ void sha256_cuda(JOB ** jobs, int n) {
 }
 
 
-__global__ void sha256_cuda_new(const BYTE data[], size_t len, BYTE hash[]) {
+__global__ BYTE * sha256_cuda_new(const BYTE data[], size_t len) {
+
+	BYTE digest[64];
+
 	SHA256_CTX ctx;
 	sha256_init(&ctx);
 	sha256_update(&ctx, data, len);
-	sha256_final(&ctx, hash);
+	sha256_final(&ctx, digest);
+
+	return hash;
+
 }
 
 
@@ -143,7 +149,7 @@ int main(int argc, char **argv) {
 
 	int blockSize = 4;
 	int numBlocks = (n + blockSize - 1) / blockSize;
-	sha256_cuda_new <<< numBlocks, blockSize >>> (data, len, digest);
+	digest = sha256_cuda_new <<< numBlocks, blockSize >>> (data, len);
 
 	printf("%s", hash_to_string(digest));
 
