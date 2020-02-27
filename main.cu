@@ -150,6 +150,7 @@ int main(int argc, char **argv) {
 		// iterate over file list - non optional arguments
 		for (i = 0, index = optind; index < argc; index++, i++){
 			buff = get_file_data(argv[index], &temp);
+			printf("%s", buff);
 			jobs[i] = JOB_init(buff, temp, argv[index]);
 		}
 
