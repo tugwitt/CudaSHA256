@@ -58,7 +58,7 @@ char * run_sha(unsigned char test[]) {
 	sha256_cuda <<< numBlocks, blockSize >>> (job);
 
 	cudaDeviceSynchronize();
-	char* digest[] = hash_to_string(job->digest);
+	char digest[] = hash_to_string(job->digest);
 	cudaDeviceReset();
 
 	return digest;
