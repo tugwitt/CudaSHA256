@@ -85,55 +85,10 @@ int main() {
 
 	long start = getMicrotime();
 
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-	run_sha(test, string);
-	run_sha(test1, string);
-	run_sha(test2, string);
-	run_sha(test3, string);
-
+	for (int i=0;i<100;i++) {
+		run_sha(test, string);
+	}
+	
 	long diff = getMicrotime() - start;
 
 	printf("%ld", diff);
