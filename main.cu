@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
 	runJobs(jobs, 0);
 
 	cudaDeviceSynchronize();
-	print_jobs(jobs, n);
+	print_jobs(jobs, 0);
 	cudaDeviceReset();
 	return 0;
 }
