@@ -13,6 +13,17 @@
 #include <ctype.h>
 #include <sys/time.h>
 
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <iostream>
+#include <chrono>
+#include <cmath>
+#include <thread>
+#include <iomanip>
+#include <string>
+#include <cassert>
+#include <cstring>
+
 
 __global__ void sha256_cuda_new(JOB * job) {
 
@@ -33,6 +44,13 @@ __global__ void sha256_cuda(JOB ** jobs, int n) {
 	}
 }
 
+
+void print_hash(unsigned char* sha256) {
+	for (uint8_t i = 0; i < 32; ++i) {
+		std::cout << std::hex << std::setfill('0') << std::setw(2) << static_cast<int>(sha256[i]);
+	}
+	std::cout << std::dec << std::endl;
+}
 
 long getMicrotime(){
 	struct timeval currentTime;
@@ -82,6 +100,10 @@ void run_sha(unsigned char test[], int n, char* string) {
 	
 	runJobs(jobs, n);
 
+	unsigned char* found_hash;
+	memcpy(found_hash, jobs[0]->digest, 32);
+	print_hash(found_hash);
+
 }
 
 
@@ -99,9 +121,7 @@ int main() {
 
 	pre_sha256();
 
-	for (int i=0;i<100;i++) {
-		run_sha(test, 1000, string);
-	}
+	run_sha(test, 1, string);
 
 	long diff = getMicrotime() - start;
 
